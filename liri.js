@@ -54,7 +54,32 @@ for (var i = 0; i < trackInfo.length; i++){
 });
 }
 //Need to add movie-this feature//
+function movie(){
 
+if (songOrMovie == null){
+	songOrMovie = "Mr. Nobody";
+}
+request("http://www.omdbapi.com/?t=" + songOrMovie + "&y=&plot=short&apikey=40e9cece", function(error, response, body) {
+
+  // If the request is successful (i.e. if the response status code is 200)
+  if (!error && response.statusCode === 200) {
+  	// console.log(JSON.parse(body));
+    // Parse the body of the site and recover just the imdbRating
+    // (Note: The syntax below for parsing isn't obvious. Just spend a few moments dissecting it).
+    console.log("Movie Title: " + JSON.parse(body).Title);
+    console.log("Release Year: " + JSON.parse(body).Year);
+    console.log("IMDb Rating: " + JSON.parse(body).imdbRating);
+    console.log("Rotten Tomatoes Score: " + JSON.parse(body).Ratings[1].Value);
+    console.log("Countries: " + JSON.parse(body).Country);
+    console.log("Languages: " + JSON.parse(body).Language);
+    console.log("Plot: " + JSON.parse(body).Plot);
+    console.log("Starring: " + JSON.parse(body).Actors);
+
+  }
+});
+
+
+}
 
 //assigning the different feature functions to the different commands
 if (command == "my-tweets"){
@@ -63,6 +88,6 @@ if (command == "my-tweets"){
 	spotify();
 } 
 //need to add condition of command being "movie-this"
-// else if (command == "movie-this"){
-// 	movie();
-// }
+else if (command == "movie-this"){
+	movie();
+}
