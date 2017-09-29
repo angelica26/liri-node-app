@@ -1,3 +1,4 @@
+//naming variables//
 var keys = require("./keys.js");
 var Twitter = require("twitter");
 var Spotify = require("node-spotify-api");
@@ -7,6 +8,7 @@ var songOrMovie = process.argv[3];
 
 //Twitter feature//
 function getTweets() {
+//Twitter keys//
 var client = new Twitter({
   consumer_key: keys.consumer_key,
   consumer_secret: keys.consumer_secret,
@@ -14,6 +16,7 @@ var client = new Twitter({
   access_token_secret: keys.access_token_secret
 });
 // console.log(keys.consumer_key)
+//Calling the Twitter API//
 var params = {screen_name: 'MacnCheeseBros'};
 client.get('statuses/user_timeline', params, function(error, tweets, response) {
   if (!error) {
@@ -24,6 +27,7 @@ client.get('statuses/user_timeline', params, function(error, tweets, response) {
 
 //Spotify feature//
 function spotify() {
+//Spotify keys//
 var spotify = new Spotify({
   id: "21fea63f2e07474fbc311f5fa4da8313",
   secret: "174c37c1462a4b94a42d0a77ab7615ca"
@@ -32,7 +36,7 @@ var spotify = new Spotify({
   if (songOrMovie == null){
 	songOrMovie = "The Sign";
 }
- 
+//Calling Spotify API// 
 spotify.search({ type: 'track', query: songOrMovie, limit: 1}, function(err, data) {
   if (err) {
     return console.log('Error occurred: ' + err);
@@ -41,7 +45,7 @@ spotify.search({ type: 'track', query: songOrMovie, limit: 1}, function(err, dat
  // had a hard time navigating to the data I wanted :( //
 // console.log(data.tracks.items); 
 var trackInfo = data.tracks.items;
-
+//Displaying song info//
 for (var i = 0; i < trackInfo.length; i++){
 	console.log("Song name: " + trackInfo[i].name);
 	console.log("Album: " + trackInfo[i].album.name);
@@ -53,19 +57,20 @@ for (var i = 0; i < trackInfo.length; i++){
 }
 });
 }
-//Need to add movie-this feature//
+//movie-this feature//
 function movie(){
-
+//if no movie is entered, it defaults to Mr. Nobody//
 if (songOrMovie == null){
 	songOrMovie = "Mr. Nobody";
 }
+//Making the request to omdb API//
 request("http://www.omdbapi.com/?t=" + songOrMovie + "&y=&plot=short&apikey=40e9cece", function(error, response, body) {
 
-  // If the request is successful (i.e. if the response status code is 200)
+
   if (!error && response.statusCode === 200) {
   	// console.log(JSON.parse(body));
-    // Parse the body of the site and recover just the imdbRating
-    // (Note: The syntax below for parsing isn't obvious. Just spend a few moments dissecting it).
+
+//Printing out movie info from omdb//    
     console.log("Movie Title: " + JSON.parse(body).Title);
     console.log("Release Year: " + JSON.parse(body).Year);
     console.log("IMDb Rating: " + JSON.parse(body).imdbRating);
@@ -87,7 +92,8 @@ if (command == "my-tweets"){
 } else if (command == "spotify-this-song"){
 	spotify();
 } 
-//need to add condition of command being "movie-this"
 else if (command == "movie-this"){
 	movie();
+} else {
+	console.log("please enter a command")
 }
