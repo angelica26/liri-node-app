@@ -6,6 +6,8 @@ var request = require("request");
 var command = process.argv[2];
 var songOrMovie = process.argv[3];
 
+// console.log("Please enter one of the following commands: \n\r 'my-tweets' (to see tweets from cat brothers Mac and Cheese), \n\r 'spotify-this-song' [song name here] (for info on the song of your choice), \n\r 'movie-this' [movie name here] (for info on the movie of your choice)");
+
 //Twitter feature//
 function getTweets() {
 //Twitter keys//
